@@ -8,11 +8,16 @@ import irail.api
 timezone = pytz.timezone('Europe/Brussels')
 
 
-def create_event(departure_time, event_type, event_value=None, vias=None):
+def create_event(departure_time, connection, event_type, event_value=""):
     # Event ID will be used to check for new events in the cache
     event_id = zlib.crc32(
         f"{departure_time}{event_type}{event_value}".encode("UTF-8"))
-    return {"departure_time": departure_time, "type": event_type, "value": event_value, "vias": vias, "id": event_id}
+
+    return {"departure_time": departure_time,
+            "type": event_type,
+            "value": event_value,
+            "connection": connection,
+            "id": event_id}
 
 
 def check(from_station, to_station, checked_departure_times=[]):
@@ -36,20 +41,15 @@ def check(from_station, to_station, checked_departure_times=[]):
                   "train; not in checked departures")
             # continue
 
-        vias = []
-        if "vias" in connection:
-            vias = list(
-                map(lambda via: f"{via['station']} ({via['arrival']['direction']['name']})",
-                    connection["vias"]["via"]))
-
         delay = math.ceil(int(connection["departure"]["delay"]) / 60)
         if delay > 0:
             events.append(create_event(
-                departure_time, "delay", delay, vias=vias))
+                departure_time, connection, "delay", delay))
 
         cancelled = int(connection["departure"]["canceled"])
         if cancelled > 1:
-            events.append(create_event(departure_time, "cancelled", vias=vias))
+            events.append(create_event(
+                departure_time, connection, "cancelled"))
 
         if int(connection["alerts"]["number"]) > 0:
             for alert in connection["alerts"]["alert"]:
@@ -58,6 +58,6 @@ def check(from_station, to_station, checked_departure_times=[]):
                     alert_string += f"\n{alert['link']}"
 
                 events.append(create_event(
-                    departure_time, "alert", alert_string, vias=vias))
+                    departure_time, connection, "alert", alert_string))
 
     return events
