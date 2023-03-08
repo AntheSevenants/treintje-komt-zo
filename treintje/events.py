@@ -37,7 +37,7 @@ def check(from_station, to_station, checked_departure_times=[]):
             # continue
 
         vias = []
-        if int(connection["vias"]["number"]) > 0:
+        if "vias" in connection:
             vias = list(
                 map(lambda via: f"{via['station']} ({via['arrival']['direction']['name']})",
                     connection["vias"]["via"]))
