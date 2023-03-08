@@ -1,4 +1,5 @@
 import treintje.events
+import treintje.cache
 import json
 import argparse
 import os.path
@@ -22,3 +23,6 @@ for trajectory in trajectories:
     print(trajectory_events)
 
     time.sleep(1)
+
+    treintje.cache.save_cache(
+        trajectory["from"], trajectory["to"], trajectory_events)
