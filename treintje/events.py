@@ -53,7 +53,7 @@ def check(from_station, to_station, checked_departure_times=[]):
 
         if int(connection["alerts"]["number"]) > 0:
             for alert in connection["alerts"]["alert"]:
-                alert_string = f"{alert['header']}\n{alert['lead']}"
+                alert_string = alert['lead']
                 if "link" in alert:
                     alert_string += f"\n{alert['link']}"
 
