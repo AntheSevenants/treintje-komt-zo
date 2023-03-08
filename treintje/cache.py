@@ -25,11 +25,11 @@ def diff_cache(from_station, to_station, new_events):
         with open(cache_filename, "rt") as reader:
             old_cache = json.loads(reader.read())
 
-        # This list holds all new events which are different from the old events
-        truly_new_events = []
-
         old_event_ids = list(
             map(lambda event: event["id"], old_cache["events"]))
+        
+    # This list holds all new events which are different from the old events
+    truly_new_events = []
 
     for new_event in new_events:
         if new_event["id"] in old_event_ids:
