@@ -23,9 +23,12 @@ for trajectory in trajectories:
 
     trajectory_events = treintje.events.check(
         from_station, to_station, trajectory["departure_times"])
-    print(trajectory_events)
 
     time.sleep(1)
+
+    print("Different events:")
+    different_events = treintje.cache.diff_cache(
+        from_station, to_station, trajectory_events)
 
     treintje.cache.save_cache(
         from_station, to_station, trajectory_events)
