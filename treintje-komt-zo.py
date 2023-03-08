@@ -2,6 +2,7 @@ import treintje.events
 import json
 import argparse
 import os.path
+import time
 
 parser = argparse.ArgumentParser(
     description='treintje-komt-zo - Get automatic notifications on NMBS/SNCB delays and cancelled trains')
@@ -19,3 +20,5 @@ for trajectory in trajectories:
     trajectory_events = treintje.events.check(
         trajectory["from"], trajectory["to"], trajectory["departure_times"])
     print(trajectory_events)
+
+    time.sleep(1)
