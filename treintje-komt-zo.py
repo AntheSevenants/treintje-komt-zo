@@ -1,5 +1,6 @@
 import treintje.events
 import treintje.cache
+import treintje.messaging
 import json
 import argparse
 import os.path
@@ -26,9 +27,10 @@ for trajectory in trajectories:
 
     time.sleep(1)
 
-    print("Different events:")
     different_events = treintje.cache.diff_cache(
         from_station, to_station, trajectory_events)
+    
+    treintje.messaging.handle_events(different_events, trajectory)
 
     treintje.cache.save_cache(
         from_station, to_station, trajectory_events)
