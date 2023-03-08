@@ -18,11 +18,14 @@ with open(args.trajectories_path, "rt") as reader:
     trajectories = json.loads(reader.read())
 
 for trajectory in trajectories:
+    from_station = trajectory["from"]
+    to_station = trajectory["to"]
+
     trajectory_events = treintje.events.check(
-        trajectory["from"], trajectory["to"], trajectory["departure_times"])
+        from_station, to_station, trajectory["departure_times"])
     print(trajectory_events)
 
     time.sleep(1)
 
     treintje.cache.save_cache(
-        trajectory["from"], trajectory["to"], trajectory_events)
+        from_station, to_station, trajectory_events)
