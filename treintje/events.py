@@ -39,7 +39,7 @@ def check(from_station, to_station, checked_departure_times=[]):
         if departure_time not in checked_departure_times:
             print("Skipping the", departure_time,
                   "train; not in checked departures")
-            # continue
+            continue
 
         delay = math.ceil(int(connection["departure"]["delay"]) / 60)
         if delay > 0:
