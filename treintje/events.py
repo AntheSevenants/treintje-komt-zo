@@ -30,7 +30,7 @@ def check(from_station, to_station, checked_departure_times=[]):
         if departure_time not in checked_departure_times:
             print("Skipping the", departure_time,
                   "train; not in checked departures")
-            #continue
+            # continue
 
         delay = math.ceil(int(connection["departure"]["delay"]) / 60)
         if delay > 0:
@@ -39,5 +39,14 @@ def check(from_station, to_station, checked_departure_times=[]):
         cancelled = int(connection["departure"]["canceled"])
         if cancelled > 1:
             events.append(create_event(departure_time, "cancelled"))
+
+        if int(connection["alerts"]["number"]) > 0:
+            for alert in connection["alerts"]["alert"]:
+                alert_string = f"{alert['header']}\n{alert['lead']}"
+                if "link" in alert:
+                    alert_string += f"\n{alert['link']}"
+
+                events.append(create_event(
+                    departure_time, "alert", alert_string))
 
     return events
