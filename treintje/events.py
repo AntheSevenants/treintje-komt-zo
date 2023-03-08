@@ -1,6 +1,7 @@
 from datetime import datetime
 import pytz
 import math
+import zlib
 
 import irail.api
 
@@ -8,7 +9,9 @@ timezone = pytz.timezone('Europe/Brussels')
 
 
 def create_event(departure_time, event_type, event_value=None):
-    return {"departure_time": departure_time, "type": event_type, "value": event_value}
+    # Event ID will be used to check for new events in the cache
+    event_id = zlib.crc32(f"{departure_time}{event_type}{event_value}".encode("UTF-8"))
+    return {"departure_time": departure_time, "type": event_type, "value": event_value, "id": event_id}
 
 
 def check(from_station, to_station, checked_departure_times=[]):
