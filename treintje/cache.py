@@ -1,6 +1,7 @@
 import json
 import time
 import json
+import os.path
 
 
 def create_cache_filename(from_station, to_station):
@@ -16,14 +17,19 @@ def save_cache(from_station, to_station, events):
 
 
 def diff_cache(from_station, to_station, new_events):
+    old_event_ids = []
+
     cache_filename = create_cache_filename(from_station, to_station)
-    with open(cache_filename, "rt") as reader:
-        old_cache = json.loads(reader.read())
+    # Check cache if it exists
+    if os.path.exists(cache_filename):
+        with open(cache_filename, "rt") as reader:
+            old_cache = json.loads(reader.read())
 
-    # This list holds all new events which are different from the old events
-    truly_new_events = []
+        # This list holds all new events which are different from the old events
+        truly_new_events = []
 
-    old_event_ids = list(map(lambda event: event["id"], old_cache["events"]))
+        old_event_ids = list(
+            map(lambda event: event["id"], old_cache["events"]))
 
     for new_event in new_events:
         if new_event["id"] in old_event_ids:
