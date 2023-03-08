@@ -2,6 +2,8 @@ import urllib.parse
 import urllib.request
 from urllib.request import Request
 
+import json
+
 
 def make_request(method, parameters={}):
     parameters["format"] = "json"
@@ -13,4 +15,5 @@ def make_request(method, parameters={}):
     request = Request(request_url)
     request.add_header(
         'user-agent', 'treintje-komt-zo/1.0; github.com/AntheSevenants/treintje-komt-zo')
-    return urllib.request.urlopen(request).read()
+    content = urllib.request.urlopen(request).read()
+    return json.loads(content)
