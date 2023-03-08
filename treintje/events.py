@@ -1,5 +1,6 @@
 from datetime import datetime
 import pytz
+import math
 
 import irail.api
 
@@ -31,7 +32,7 @@ def check(from_station, to_station, checked_departure_times=[]):
                   "train; not in checked departures")
             #continue
 
-        delay = int(connection["departure"]["delay"])
+        delay = math.ceil(int(connection["departure"]["delay"]) / 60)
         if delay > 0:
             events.append(create_event(departure_time, "delay", delay))
 
