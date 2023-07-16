@@ -129,6 +129,9 @@ dmypy.json
 .pyre/
 
 # trajectories
-trajectories.json
+trajectories*.json
 
 cache*.json
+
+# Docker compose files
+docker-compose*.yml
