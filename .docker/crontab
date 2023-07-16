@@ -1,0 +1,1 @@
+* 5-18 * * 1-5 bash /usr/app/src/.docker/check.sh > /proc/1/fd/1 2>/proc/1/fd/2
