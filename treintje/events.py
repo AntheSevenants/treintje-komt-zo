@@ -47,7 +47,7 @@ def check(from_station, to_station, checked_departure_times=[]):
                 departure_time, connection, "delay", delay))
 
         cancelled = int(connection["departure"]["canceled"])
-        if cancelled > 1:
+        if cancelled > 0:
             events.append(create_event(
                 departure_time, connection, "cancelled"))
 
