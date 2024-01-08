@@ -29,7 +29,7 @@ def handle_events(events, trajectory):
 
         if event["type"] == "delay":
             message = message + f"\n{event['value']} minuten vertraging"
-        elif event["type"] == "cancelled":
+        elif event["type"] == "cancellation":
             message = message + "\ntrein geschrapt"
         elif event["type"] == "alert":
             message = message + f"\nmededeling:\n{event['value']}"
