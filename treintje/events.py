@@ -49,7 +49,7 @@ def check(from_station, to_station, checked_departure_times=[]):
         cancelled = connection["departure"]["canceled"]
         if cancelled == "1":
             events.append(create_event(
-                departure_time, connection, "cancelled"))
+                departure_time, connection, "cancellation"))
 
         if int(connection["alerts"]["number"]) > 0:
             for alert in connection["alerts"]["alert"]:
